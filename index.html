@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Life — Organisation scolaire</title>
+    <meta
+      name="description"
+      content="Student Life : emploi du temps, calendrier, pense-bêtes, messages et groupes pour les étudiants."
+    />
+    <meta name="robots" content="index, follow" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Inter, system-ui, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* ── Animations Fluides ── */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-8px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(8px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes pulse-soft {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+
+      /* ── Navigation Améliorée ── */
+      .nav-active { 
+        background: #eff6ff; 
+        color: #2563eb;
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      .nav-icon-badge { 
+        transition: all 0.2s ease-out;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      }
+
+      a:not(.nav-active):hover .nav-icon-badge {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+
+      .nav-active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 24px;
+        width: 4px;
+        background: linear-gradient(180deg, #2563eb, #1d4ed8);
+        border-radius: 0 4px 4px 0;
+        box-shadow: 2px 0 8px rgba(37, 99, 235, 0.3);
+      }
+
+      /* ── Cards Élégantes ── */
+      .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1) !important;
+      }
+
+      /* ── Boutons ── */
+      button {
+        transition: all 0.2s ease-out;
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* ── Formulaires ── */
+      input, textarea, select {
+        transition: all 0.2s ease-out;
+      }
+
+      input:focus, textarea:focus, select:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+      }
+
+      /* ── Sidebar ── */
+      aside {
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+      }
+
+      /* ── Modal ── */
+      .modal-overlay {
+        animation: fadeIn 0.2s ease-out;
+        backdrop-filter: blur(3px);
+      }
+
+      .modal-content {
+        animation: slideInRight 0.3s ease-out;
+      }
+
+      /* ── Badges & Indicateurs ── */
+      .badge-glow {
+        box-shadow: 0 0 12px rgba(37, 99, 235, 0.3);
+        animation: pulse-soft 2s ease-in-out infinite;
+      }
+
+      /* ── Événements Calendrier ── */
+      .event-badge {
+        transition: all 0.2s ease-out;
+        position: relative;
+      }
+
+      .event-badge::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        opacity: 0;
+        background: rgba(255,255,255,0.5);
+        transition: opacity 0.2s;
+      }
+
+      .event-badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* ── Stats Cards ── */
+      .stat-card {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent, rgba(255,255,255,0.3));
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .stat-card:hover::before {
+        opacity: 1;
+      }
+
+      /* ── Sidebar Open ── */
+      body.sidebar-open { overflow: hidden; }
+      @media (min-width: 1024px) {
+        body.sidebar-open { overflow: auto; }
+      }
+
+      .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      /* ── Dark Mode ── */
+      html.dark body { 
+        background: linear-gradient(135deg, #0f172a 0%, #1a2943 100%);
+        color: #e2e8f0; 
+      }
+
+      html.dark .bg-white { background-color: #1e293b !important; }
+      html.dark body { background-color: #0f172a !important; }
+      html.dark .bg-\[\#f3f4f6\] { background-color: #0f172a !important; }
+      html.dark .bg-\[\#f9fafb\] { background-color: #111827 !important; }
+      html.dark .bg-gray-50, html.dark .bg-gray-50\/50 { background-color: #1a2536 !important; }
+      html.dark .border-\[\#e5e7eb\], html.dark .border-gray-300 { border-color: #334155 !important; }
+      html.dark .text-\[\#111827\] { color: #e2e8f0 !important; }
+      html.dark .text-\[\#6b7280\] { color: #94a3b8 !important; }
+      html.dark .text-\[\#4b5563\] { color: #94a3b8 !important; }
+      html.dark .text-gray-700, html.dark .text-gray-800 { color: #cbd5e1 !important; }
+      html.dark .text-gray-500 { color: #64748b !important; }
+      html.dark .text-gray-600 { color: #94a3b8 !important; }
+      html.dark .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.4) !important; }
+      html.dark .shadow-xl { box-shadow: 0 20px 40px rgba(0,0,0,0.6) !important; }
+      html.dark input, html.dark textarea, html.dark select { 
+        background-color: #0f172a !important; 
+        color: #e2e8f0 !important; 
+        border-color: #334155 !important; 
+      }
+      html.dark .nav-active { background: #1e3a5f !important; color: #60a5fa !important; }
+      html.dark .nav-active::before { background: linear-gradient(180deg, #60a5fa, #3b82f6) !important; }
+      html.dark .hover\:bg-gray-50:hover, html.dark .hover\:bg-gray-100:hover { background-color: #1e293b !important; }
+      html.dark .divide-y > * + * { border-color: #334155 !important; }
+      html.dark .bg-\[\#eff6ff\] { background-color: #1e3a5f !important; }
+      html.dark .bg-\[\#eff6ff\/50\] { background-color: rgba(30,58,95,0.5) !important; }
+      html.dark aside { box-shadow: 2px 0 16px rgba(0,0,0,0.3); }
+
+      /* ── Scrollbar Personnalisée ── */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { 
+        background: #d1d5db; 
+        border-radius: 4px; 
+      }
+      ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+      html.dark ::-webkit-scrollbar-thumb { background: #475569; }
+      html.dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+      /* ── Gradient Backgrounds ── */
+      .gradient-sunrise {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .gradient-ocean {
+        background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%);
+      }
+
+      /* ── Glassmorphism ── */
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      html.dark .glass-effect {
+        background: rgba(30, 41, 59, 0.6);
+        border-color: rgba(51, 65, 85, 0.3);
+      }
+    </style>
+  </head>
+  <body class="bg-[#f3f4f6] text-[#111827]">
+    <div id="app"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
+    <script src="app.js"></script>
+  </body>
+</html>
